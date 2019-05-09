@@ -324,7 +324,7 @@ impl IoCondition {
     /// Creates a new bit set with no interest bits set.
     pub fn new() -> IoCondition {
         IoCondition {
-            bits: glib_sys::GIOCondition::empty(),
+            bits: 0,
         }
     }
 
@@ -340,22 +340,22 @@ impl IoCondition {
 
     /// Tests whether this condition indicates hang up
     pub fn is_hang_up(&self) -> bool {
-        self.bits.contains(glib_sys::G_IO_HUP)
+        self.bits & glib_sys::G_IO_HUP > 0
     }
 
     /// Tests whether this condition indicates input readiness
     pub fn is_input(&self) -> bool {
-        self.bits.contains(glib_sys::G_IO_IN)
+        self.bits & glib_sys::G_IO_IN > 0
     }
 
     /// Tests whether this condition indicates not opened
     pub fn is_not_open(&self) -> bool {
-        self.bits.contains(glib_sys::G_IO_NVAL)
+        self.bits & glib_sys::G_IO_NVAL > 0
     }
 
     /// Tests whether this condition indicates output readiness
     pub fn is_output(&self) -> bool {
-        self.bits.contains(glib_sys::G_IO_OUT)
+        self.bits & glib_sys::G_IO_OUT > 0
     }
 
     fn flag(&mut self, enabled: bool, flag: glib_sys::GIOCondition) -> &mut IoCondition {
